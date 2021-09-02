@@ -1,4 +1,4 @@
-package org.potter.houses.request;
+package org.potter.houses.harrypotterapi;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,9 +14,9 @@ import java.util.List;
 public class HouseRequest {
 
     private String id;
-    private String houseName;
+    private String name;
     private String animal;
     private String founder;
-    private List<Value> value;
+    private List<Value> values;
 
 }

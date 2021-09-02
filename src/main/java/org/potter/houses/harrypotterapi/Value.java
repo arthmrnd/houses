@@ -1,4 +1,4 @@
-package org.potter.houses.request;
+package org.potter.houses.harrypotterapi;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class Value {
-    private String value;
+    private String name;
 }
