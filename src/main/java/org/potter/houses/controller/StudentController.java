@@ -7,11 +7,13 @@ import org.potter.houses.entity.Student;
 import org.potter.houses.request.StudentRequest;
 import org.potter.houses.response.StudentResponse;
 import org.potter.houses.service.StudentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -22,21 +24,25 @@ public class StudentController {
     private final StudentService service;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public Observable<StudentResponse> listAll() {
         return service.listAll();
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Single<StudentResponse> findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @GetMapping("/house/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Observable<StudentResponse> findByHouse(@PathVariable String id) {
         return service.findByHouse(id);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Single<Student> insertStudent(@RequestBody StudentRequest studentRequest) {
         return service.addStudent(studentRequest);
     }
