@@ -3,7 +3,6 @@ package org.potter.houses.controller;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import lombok.RequiredArgsConstructor;
-import org.potter.houses.entity.Student;
 import org.potter.houses.request.StudentRequest;
 import org.potter.houses.response.StudentResponse;
 import org.potter.houses.service.StudentService;
@@ -41,9 +40,15 @@ public class StudentController {
         return service.findByHouse(id);
     }
 
+    @GetMapping("/name/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public Observable<StudentResponse> findByName(@PathVariable String name) {
+        return service.findByName(name);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Single<Student> insertStudent(@RequestBody StudentRequest studentRequest) {
+    public Single<StudentResponse> insertStudent(@RequestBody StudentRequest studentRequest) {
         return service.addStudent(studentRequest);
     }
 }

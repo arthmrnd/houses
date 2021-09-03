@@ -4,12 +4,12 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import lombok.RequiredArgsConstructor;
 import org.potter.houses.entity.Student;
+import org.potter.houses.exception.StudentNotFoundException;
 import org.potter.houses.repository.StudentRepository;
 import org.potter.houses.request.StudentRequest;
 import org.potter.houses.response.StudentResponse;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -24,23 +24,13 @@ public class StudentService {
         return getResponseObservable(students);
     }
 
-    public Single<StudentResponse> findById(Long id) {
-        return Single.create(singleSubscriber -> {
-            var studentOpt = studentRepository.findById(id);
-            if (studentOpt.isPresent()){
-                var student = studentOpt.get();
-                var response = new StudentResponse(student.getName(),
-                        houseService.getHouseFromApi(student.getHouseId()));
-                singleSubscriber.onSuccess(response);
-            }
-            else {
-                singleSubscriber.onError(new EntityNotFoundException());
-            }
-        });
-    }
-
     public Observable<StudentResponse> findByHouse(String id) {
         var students = studentRepository.findByHouseId(id);
+        return getResponseObservable(students);
+    }
+
+    public Observable<StudentResponse> findByName(String name) {
+        var students = studentRepository.findByName(name);
         return getResponseObservable(students);
     }
 
@@ -49,14 +39,33 @@ public class StudentService {
                 houseService.getHouseFromApi(student.getHouseId())));
     }
 
-    public Single<Student> addStudent(StudentRequest studentRequest) {
+    public Single<StudentResponse> findById(Long id) {
+        return Single.create(singleSubscriber -> {
+            var studentOpt = studentRepository.findById(id);
+            if (studentOpt.isPresent()){
+                var student = studentOpt.get();
+                StudentResponse response = getStudentResponse(student);
+                singleSubscriber.onSuccess(response);
+            }
+            else {
+                singleSubscriber.onError(new StudentNotFoundException(id));
+            }
+        });
+    }
+
+    private StudentResponse getStudentResponse(Student student) {
+        return new StudentResponse(student.getName(),
+                houseService.getHouseFromApi(student.getHouseId()));
+    }
+
+    public Single<StudentResponse> addStudent(StudentRequest studentRequest) {
         return addStudentToRepository(studentRequest);
     }
 
-    private Single<Student> addStudentToRepository(StudentRequest studentRequest) {
+    private Single<StudentResponse> addStudentToRepository(StudentRequest studentRequest) {
         return Single.create(singleSubscriber -> {
             var student = studentRepository.save(buildStudent(studentRequest));
-            singleSubscriber.onSuccess(student);
+            singleSubscriber.onSuccess(getStudentResponse(student));
         });
     }
 
