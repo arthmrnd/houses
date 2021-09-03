@@ -23,9 +23,9 @@ import javax.persistence.Table;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_student")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     @ManyToOne
     @JoinColumn(name = "id_house", referencedColumnName = "id_house")
