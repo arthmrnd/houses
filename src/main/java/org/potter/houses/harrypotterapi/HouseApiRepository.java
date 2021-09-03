@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface HouseApiRepository {
 
     @GetMapping("/{id}")
-    HouseRequest house(@PathVariable String id);
+    House house(@PathVariable String id);
 }

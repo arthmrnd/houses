@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HouseRequest {
+public class House {
 
     private String id;
     private String name;

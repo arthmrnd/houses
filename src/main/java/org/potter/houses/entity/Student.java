@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Getter
@@ -27,13 +25,12 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "id_house", referencedColumnName = "id_house")
-    private House house;
+    @Column(name = "id_house")
+    private String houseId;
 
-    public Student(String name, House house){
+    public Student(String name, String houseId){
         this.name = name;
-        this.house = house;
+        this.houseId = houseId;
     }
 
 }

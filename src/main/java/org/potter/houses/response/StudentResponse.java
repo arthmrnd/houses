@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.potter.houses.entity.House;
+import org.potter.houses.harrypotterapi.House;
 
 @Getter
 @Setter
